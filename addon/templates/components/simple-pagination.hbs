@@ -1,0 +1,46 @@
+{{#if hasItems}}
+  {{#if hasBlock}}
+    {{yield
+      (hash
+        currentPage=currentPage
+        totalPages=totalPages
+        range=range
+        onNext=(action 'onNext')
+        onPrevious=(action 'onPrevious')
+        onPage=(action 'onPage')
+      )
+    }}
+  {{else}}
+    <ul class="pagination-container" data-test={{hook 'pagination-container'}} role="navigation" aria-label="Pagination">
+      <button data-test={{hook 'pagination-previous'}} disabled={{eq currentPage 0}} class="pagination-item pagination-previous-item">
+        {{#unless (eq currentPage 0)}}
+          <a {{action 'onPrevious'}} aria-label="Previous page" data-test={{hook 'pagination-item-link-previous'}} class="pagination-item-link">
+            Previous
+          </a>
+        {{else}}
+          Previous
+        {{/unless}}
+      </button>
+      {{#each range as |number|}}
+        {{#unless (eq number null)}}
+          <button data-test={{hook 'pagination-item'}} class={{if (eq currentPage number) 'pagination-item current' 'pagination-item'}}>
+            <a {{action 'onPage' number}} aria-label={{concat "Page " (add number 1)}} data-test={{hook 'pagination-item-link'}} class='pagination-item-link'>
+              {{add number 1}}
+            </a>
+          </button>
+        {{else}}
+          <li data-test={{hook 'pagination-ellipsis'}} class="pagination-item ellipsis" aria-hidden="true"></li>
+        {{/unless}}
+      {{/each}}
+      <button data-test={{hook 'pagination-next'}} disabled={{gte currentPage (sub totalPages 1)}} class="pagination-item pagination-next-item">
+        {{#unless (gte currentPage (sub totalPages 1))}}
+          <a {{action 'onNext'}} aria-label="Next page" data-test={{hook 'pagination-item-link-next'}} class="pagination-item-link">
+            Next
+          </a>
+        {{else}}
+          Next
+        {{/unless}}
+      </button>
+    </ul>
+  {{/if}}
+{{/if}}
