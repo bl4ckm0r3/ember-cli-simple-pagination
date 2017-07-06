@@ -1,12 +1,15 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { $hook } from 'ember-hook';
+import { $hook, initialize as initializeTestHook } from 'ember-hook';
 import Ember from 'ember';
 
 const { $ } = Ember;
 
 moduleForComponent('simple-pagination', 'Integration | Component | campaign pagination', {
-  integration: true
+  integration: true,
+  beforeEach() {
+    initializeTestHook();
+  }
 });
 
 test('it renders without content', function(assert) {

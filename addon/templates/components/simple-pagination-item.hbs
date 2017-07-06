@@ -1,0 +1,7 @@
+{{#if hasBlock}}
+  {{yield}}
+{{else}}
+  <a {{action 'onClickItem' number}} aria-label={{ariaLabel}} data-test={{hook 'pagination-item-link'}} class='pagination-item-link'>
+    {{number}}
+  </a>
+{{/if}}
