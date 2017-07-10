@@ -11,32 +11,36 @@
       )
     }}
   {{else}}
-    <ul class="pagination-container" data-test={{hook 'pagination-container'}} role="navigation" aria-label="Pagination">
-      {{#simple-pagination-item onClickItem=(action 'onPrevious') hook='pagination-previous' disabled=(eq currentPage 0) ariaLabel='Previous page' class='pagination-previous-item'}}
-        {{#unless (eq currentPage 0)}}
-          <a {{action 'onPrevious'}} aria-label="Previous page" data-test={{hook 'pagination-item-link-previous'}} class="pagination-item-link">
+    <nav class="pagination-container" data-test={{hook 'pagination-container'}} role="navigation" aria-label="Pagination">
+      <ul>
+        {{#simple-pagination-item tagName="li" onClickItem=(action 'onPrevious') hook='pagination-previous' disabled=(eq currentPage 0) ariaLabel='Previous page' class='pagination-previous-item'}}
+          {{#unless (eq currentPage 0)}}
+            <a {{action 'onPrevious'}} aria-label="Previous page" data-test={{hook 'pagination-item-link-previous'}} class="pagination-item-link">
+              Previous
+            </a>
+          {{else}}
             Previous
-          </a>
-        {{else}}
-          Previous
-        {{/unless}}
-      {{/simple-pagination-item}}
-      {{#each range as |number|}}
-        {{#unless (eq number null)}}
-          {{simple-pagination-item onClickItem=(action 'onPage' number) current=(if (eq currentPage number) true false) ariaLabel=(concat "Page " (add number 1)) number=(add number 1)}}
-        {{else}}
-          <li data-test={{hook 'pagination-ellipsis'}} class="pagination-item ellipsis" aria-hidden="true"></li>
-        {{/unless}}
-      {{/each}}
-      {{#simple-pagination-item onClickItem=(action 'onNext') hook='pagination-next' disabled=(gte currentPage (sub totalPages 1)) ariaLabel='Next page' class='pagination-next-item'}}
-        {{#unless (gte currentPage (sub totalPages 1))}}
-          <a {{action 'onNext'}} aria-label="Next page" data-test={{hook 'pagination-item-link-next'}} class="pagination-item-link">
+          {{/unless}}
+        {{/simple-pagination-item}}
+        {{#each range as |number|}}
+          {{#unless (eq number null)}}
+            {{simple-pagination-item tagName="li" onClickItem=(action 'onPage' number) current=(eq currentPage number) ariaLabel=(concat "Page " (add number 1)) number=(add number 1)}}
+          {{else}}
+            {{#simple-pagination-item disabled=true aria-hidden=true hook="pagination-ellipsis" class="pagination-ellipsis-container"}}
+              <p class="pagination-item ellipsis"></p>
+            {{/simple-pagination-item}}
+          {{/unless}}
+        {{/each}}
+        {{#simple-pagination-item tagName="li" onClickItem=(action 'onNext') hook='pagination-next' disabled=(gte currentPage (sub totalPages 1)) ariaLabel='Next page' class='pagination-next-item'}}
+          {{#unless (gte currentPage (sub totalPages 1))}}
+            <a {{action 'onNext'}} aria-label="Next page" data-test={{hook 'pagination-item-link-next'}} class="pagination-item-link">
+              Next
+            </a>
+          {{else}}
             Next
-          </a>
-        {{else}}
-          Next
-        {{/unless}}
-      {{/simple-pagination-item}}
-    </ul>
+          {{/unless}}
+        {{/simple-pagination-item}}
+      </ul>
+    </nav>
   {{/if}}
 {{/if}}

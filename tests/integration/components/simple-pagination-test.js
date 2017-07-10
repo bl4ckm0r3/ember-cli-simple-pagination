@@ -138,12 +138,12 @@ test('it renders with lots of content - mid-start page', function(assert) {
 
   this.render(hbs`{{simple-pagination totalResults=totalResults currentPage=currentPage limit=limit}}`);
 
-  assert.equal($hook('pagination-container').length, 1);
+  assert.equal($hook('pagination-container').length, 1, 'pagination-container present');
 
-  assert.equal($hook('pagination-previous').length, 1);
-  assert.equal($hook('pagination-next').length, 1);
-  assert.equal($hook('pagination-ellipsis').length, 2);
-  assert.equal($hook('pagination-item').length, expectedPages);
+  assert.equal($hook('pagination-previous').length, 1, 'pagination-previous present');
+  assert.equal($hook('pagination-next').length, 1, 'pagination-next present');
+  assert.equal($hook('pagination-ellipsis').length, 2, 'pagination-ellipsis present');
+  assert.equal($hook('pagination-item').length, expectedPages, 'expected pages correct');
 
   $hook('pagination-item').each((idx, el) => {
     assert.equal($(el).text().trim(), expectedItems[idx]);

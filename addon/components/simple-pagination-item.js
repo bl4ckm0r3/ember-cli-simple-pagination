@@ -10,7 +10,7 @@ export default Component.extend({
   hook: 'pagination-item',
   classNames: ['pagination-item'],
   classNameBindings: ['current'],
-  attributeBindings: ['disabled'],
+  attributeBindings: ['disabled', 'aria-label', 'aria-hidden'],
   onClickItem: NO_OP,
 
   actions: {
