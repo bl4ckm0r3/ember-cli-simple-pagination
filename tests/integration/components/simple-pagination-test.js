@@ -34,11 +34,11 @@ test('it renders with content', function(assert) {
 
   this.render(hbs`{{simple-pagination totalResults=totalResults currentPage=currentPage limit=limit}}`);
 
-  assert.equal($hook('pagination-container').length, 1);
+  assert.equal($hook('pagination-container').length, 1, 'Container present');
 
-  assert.equal($hook('pagination-previous').length, 1);
-  assert.equal($hook('pagination-next').length, 1);
-  assert.equal($hook('pagination-item').length, expectedPages);
+  assert.equal($hook('pagination-previous').length, 1, 'Previous present');
+  assert.equal($hook('pagination-next').length, 1, 'Next present');
+  assert.equal($hook('pagination-item').length, expectedPages, 'Pagination Items present');
 
   $hook('pagination-item').each((idx, el) => {
     assert.equal($(el).text().trim(), idx + 1);
@@ -92,7 +92,7 @@ test('it renders with content - last page', function(assert) {
     assert.equal($(el).text().trim(), expectedItems[idx]);
   });
 
-  assert.equal($hook('pagination-ellipsis').length, 0);
+  assert.equal($hook('pagination-ellipsis').length, 0, 'no ellipsis');
 });
 
 test('it renders with just 1 more than maxPages', function(assert) {
@@ -385,8 +385,7 @@ test('it yields when hasBlock', async function(assert) {
   
   assert.equal($hook('currentPage').text().trim(), '4');
   
-  expectedItems = [0, 1, 2, 3, 4, null, 24];
-  
+  expectedItems = [0, null, 2, 3, 4, 5, 6, null, 24];
   $hook('range').children().each((idx, item) => {
     assert.equal($(item).text().trim(), expectedItems[idx] === null ? '' : expectedItems[idx]);
   });  
