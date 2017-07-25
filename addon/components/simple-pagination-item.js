@@ -9,9 +9,11 @@ export default Component.extend({
   tagName: 'button',
   hook: 'pagination-item',
   classNames: ['pagination-item'],
-  classNameBindings: ['current'],
+  classNameBindings: ['type','current'],
   attributeBindings: ['disabled', 'aria-label', 'aria-hidden'],
   onClickItem: NO_OP,
+
+  type: '',
 
   click() {
     const number = get(this, 'number');
