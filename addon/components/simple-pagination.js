@@ -3,7 +3,7 @@ import layout from '../templates/components/simple-pagination';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 import computed, { reads } from 'ember-computed';
-import { isEmpty } from 'ember-utils';
+import { isEmpty, isNone } from 'ember-utils';
 
 const DEFAULT_LIMIT = 10;
 const NO_OP = () => {};
@@ -27,85 +27,53 @@ export default Component.extend({
       const totalResults = get(this, 'totalResults');
       const limit = get(this, 'limit') || DEFAULT_LIMIT;
 
-      return Math.ceil(totalResults / limit);
+      return totalResults ? Math.ceil(totalResults / limit) : null;
     }
   }).readOnly(),
 
-  leftRange: computed('currentPage', 'totalPages', 'maxPages', {
-    get() {
-      const totalPages = get(this, 'totalPages');
-      const maxPages = get(this, 'maxPages');
-      const range = [];
-      
-      for (let i = 0; i < maxPages && i < totalPages; i++) {
-        range[i] = i;
-      }
-      return range;
-    }
-  }),
-
-  rightRange: computed('currentPage', 'totalPages', 'maxPages', {
-    get() {
-      const totalPages = get(this, 'totalPages');
-      const maxPages = get(this, 'maxPages');
-      const range = [];
-      let start = 2;
-      
-      range[0] = 0;
-      
-      if (totalPages <= maxPages + 1) {
-        start -= 1;
-      } else {
-        range[1] = null;
-      }
-      for (let value = totalPages - maxPages, idx = start; value < totalPages - 1; value+=1, idx+=1) {
-        range[idx] = value;
-      }
-      return range;
-    }
-  }),
-
-  midRange: computed('currentPage', 'totalPages', 'maxPages', {
-    get() {
-      const totalPages = get(this, 'totalPages');
-      const currentPage = get(this, 'currentPage');
-      const maxPages = get(this, 'maxPages');
-      const range = [];
-      
-      range[0] = 0;
-      range[1] = null;
-      for (let value = currentPage - Math.floor(maxPages / 2), idx = 2; value < currentPage + Math.ceil(maxPages / 2) && value < totalPages -1; value+=1, idx+=1) {
-        range[idx] = value;
-      }
-      return range;
-    }
-  }),
-
-  range: computed('leftRange', 'midRange', 'rightRange', {
+  range: computed('currentPage', 'totalPages', 'maxPages', {
     get() {
       const currentPage = get(this, 'currentPage');
       const totalPages = get(this, 'totalPages');
       const maxPages = get(this, 'maxPages');
-      let range = [];
+      const ellipsis = null;
 
-      if (!totalPages || totalPages <= 0 || currentPage >= totalPages) {
-        return range;
+      if (isNone(totalPages) || currentPage > totalPages) {
+        return null;
       }
 
-      if (currentPage < maxPages) {
-        range = get(this, 'leftRange');
-      } else if (currentPage > totalPages - maxPages) {
-        range = get(this, 'rightRange');
-      } else {
-        range = get(this, 'midRange');
-      }
-      if (totalPages > maxPages) {
-        if (currentPage < totalPages - Math.ceil(maxPages / 2) - 1) {
-          range[range.length] = null;
+      
+      let start = totalPages <= maxPages ? 1 : Math.max(currentPage - Math.floor(maxPages / 2), 1);
+      let end = maxPages;
+      
+      if (totalPages !== maxPages) {
+        if (currentPage > totalPages - maxPages) {
+          start = totalPages - maxPages;
         }
-        range[range.length] = totalPages - 1;
+        
+        if (currentPage >= maxPages - 1) {
+          end = Math.min(currentPage + Math.floor(maxPages / 2) + 1, totalPages - 1);
+        }
+      }
+      
+      const range = [0];
+
+      if (totalPages > maxPages && start > 1) {
+        range.push(ellipsis);
+      }
+      
+      for (let i = start; i < end; i++) {
+        range.push(i);
       }
 
+      if (end < totalPages - 1) {
+        range.push(ellipsis);
+      }
+      
+      if (totalPages !== maxPages) {
+        range.push(totalPages - 1);
+      }
+      
       return range;
     }
   }).readOnly(),
