@@ -13,9 +13,9 @@ export default Component.extend({
   attributeBindings: ['disabled', 'aria-label', 'aria-hidden'],
   onClickItem: NO_OP,
 
-  actions: {
-    onClickItem() {
-      get(this, 'onClickItem')(...arguments);
-    }
+  click() {
+    const number = get(this, 'number');
+    
+    get(this, 'onClickItem')(number);
   }
 });
