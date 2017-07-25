@@ -1,7 +1,11 @@
-ul {
+.pagination-range-container {
   list-style: none;
 
-  li {
+  .pagination-item {
+    display: inline-block;
+  }
+
+  .pagination-range {
     display: inline-block;
   }
 
@@ -9,6 +13,7 @@ ul {
     padding: 5px 10px;
     border: 1px solid black;
     font-size: 16px;
+    cursor: pointer;
     
     &.current {
       background-color: #e0e0e0;

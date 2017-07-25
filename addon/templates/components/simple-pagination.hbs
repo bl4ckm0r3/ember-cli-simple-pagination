@@ -12,10 +12,10 @@
     }}
   {{else}}
     <nav class="pagination-container" data-test={{hook 'pagination-container'}} role="navigation" aria-label="Pagination">
-      <ul>
+      <ul class="pagination-range-container">
         {{#simple-pagination-item tagName="li" onClickItem=(action 'onPrevious') hook='pagination-previous' disabled=(eq currentPage 0) ariaLabel='Previous page' class='pagination-previous-item'}}
           {{#unless (eq currentPage 0)}}
-            <a {{action 'onPrevious'}} aria-label="Previous page" data-test={{hook 'pagination-item-link-previous'}} class="pagination-item-link">
+            <a aria-label="Previous page" data-test={{hook 'pagination-item-link-previous'}} class="pagination-item-link">
               Previous
             </a>
           {{else}}
@@ -33,7 +33,7 @@
         {{/each}}
         {{#simple-pagination-item tagName="li" onClickItem=(action 'onNext') hook='pagination-next' disabled=(gte currentPage (sub totalPages 1)) ariaLabel='Next page' class='pagination-next-item'}}
           {{#unless (gte currentPage (sub totalPages 1))}}
-            <a {{action 'onNext'}} aria-label="Next page" data-test={{hook 'pagination-item-link-next'}} class="pagination-item-link">
+            <a aria-label="Next page" data-test={{hook 'pagination-item-link-next'}} class="pagination-item-link">
               Next
             </a>
           {{else}}
