@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-cli-simple-pagination'
+  name: 'ember-cli-simple-pagination-component'
 };

@@ -1,1 +1,1 @@
-export { default } from 'ember-cli-simple-pagination/components/simple-pagination-item';
+export { default } from 'ember-cli-simple-pagination-component/components/simple-pagination-item';
