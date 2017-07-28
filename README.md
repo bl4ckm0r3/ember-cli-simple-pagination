@@ -1,5 +1,7 @@
 # ember-cli-simple-pagination
 
+[![Build Status](https://travis-ci.org/travis-ci/travis-web.svg?branch=master)](https://travis-ci.org/travis-ci/travis-web)
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
